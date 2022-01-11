@@ -1,5 +1,8 @@
 
+import { getAuth, signInWithPopup } from 'firebase/auth';
+import { googleAuthProvider } from '../firebase/firebase-config';
 import { types } from './../types/types';
+
 
 
 // export const login = (uid, displayName) =>{
@@ -32,4 +35,22 @@ export const startLoginEmailPassword = ( email, password ) =>{
       }, 3500);
 
    }
+}
+
+export const startGoogleLogin = () => {
+  
+   return (dispatch) => {
+
+      const auth = getAuth();
+      signInWithPopup(auth, googleAuthProvider)
+         .then( ({user}) => {
+            // console.log(userCred);
+            dispatch(login(user.uid, user.displayName))
+         })
+      // .then(({user}) =>{
+      //     dispatch(login(user.uid, user.displayName))
+      // });
+
+   }
+
 }

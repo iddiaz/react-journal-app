@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useForm } from './../../hooks/useForm';
 import {useDispatch}  from 'react-redux';
-import { login, startLoginEmailPassword } from './../../actions/auth';
+import { login, startGoogleLogin, startLoginEmailPassword } from './../../actions/auth';
 
 export const LoginScreen = () => {
    //useDispach => Da acceso al dispach y poder hacer dispach de acciones.
@@ -20,6 +20,10 @@ export const LoginScreen = () => {
       console.log(email,password);
       dispatch( startLoginEmailPassword( email, password ) );
 
+   }
+
+   const handleGoogleLogin = () => {
+      dispatch(startGoogleLogin())
    }
 
 
@@ -51,7 +55,7 @@ export const LoginScreen = () => {
 
             <div className="auth__social-networks">
                <p>Login With Social Networks</p>
-               <div className="google-btn">
+               <div className="google-btn" onClick={ handleGoogleLogin }>
                   <div className="google-icon-wrapper">
                      <img
                         className="google-icon"
