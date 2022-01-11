@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useForm } from './../../hooks/useForm';
 import {useDispatch}  from 'react-redux';
-import { login } from './../../actions/auth';
+import { login, startLoginEmailPassword } from './../../actions/auth';
 
 export const LoginScreen = () => {
    //useDispach => Da acceso al dispach y poder hacer dispach de acciones.
@@ -18,7 +18,7 @@ export const LoginScreen = () => {
    const handleLogin = ( e ) =>{
       e.preventDefault();
       console.log(email,password);
-      dispatch( login(12345, 'pepe') );
+      dispatch( startLoginEmailPassword( email, password ) );
 
    }
 
