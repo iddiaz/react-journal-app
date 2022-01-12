@@ -1,20 +1,12 @@
 
-import { getAuth, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { googleAuthProvider } from '../firebase/firebase-config';
 import { types } from './../types/types';
+import { finishLoading, startLoading } from './ui';
 
 
 
-// export const login = (uid, displayName) =>{
-//    return {
-//       type: types.login,
-//       payload: {
-//          uid,
-//          displayName
-//       }
-//    }
-// } 
-// ===
+
 export const login = (uid, displayName) => ({ 
   
       type: types.login,
@@ -26,14 +18,27 @@ export const login = (uid, displayName) => ({
 })
 
 export const startLoginEmailPassword = ( email, password ) =>{
+
    return (dispatch)=>{
 
-      setTimeout(() => {
+      const auth = getAuth();
 
-               dispatch( login(123,'Pedro'));
+      dispatch( startLoading() );
 
-      }, 3500);
-
+      signInWithEmailAndPassword( auth, email, password )
+         .then( ({user}) => {
+            console.log(user);
+            dispatch( login( user.uid, user.displayName ) );
+            console.log('finidh?')
+            dispatch( finishLoading() );   
+              
+         }).catch( err => {
+            console.log(err);
+            dispatch( finishLoading() );  
+         })
+          
+        
+      
    }
 }
 
@@ -51,6 +56,29 @@ export const startGoogleLogin = () => {
       //     dispatch(login(user.uid, user.displayName))
       // });
 
+   }
+
+
+}
+
+
+export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
+
+   //como es asincrona neesita retornar el callback
+   //tengo acceso al dispach aqui gracias al thunk
+   return ( dispatch ) => {
+
+      const auth = getAuth();
+      createUserWithEmailAndPassword( auth, email, password )
+         .then( async({user}) =>{
+            await updateProfile( user, {displayName: name});
+            console.log(user);
+            dispatch( login( user.uid, user.displayName ))
+
+         }).catch( err =>{
+            console.log(err);
+         })
+   
    }
 
 }
