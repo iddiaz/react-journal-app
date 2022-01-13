@@ -1,5 +1,5 @@
 
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { googleAuthProvider } from '../firebase/firebase-config';
 import { types } from './../types/types';
 import { finishLoading, startLoading } from './ui';
@@ -82,3 +82,27 @@ export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
    }
 
 }
+
+export const startLogout = ()=>{
+   return(dispatch)=>{
+      const auth = getAuth();
+      signOut( auth ).then( ()=>{
+         console.log('logout from firestore!!');
+         dispatch( logout() );
+      } )
+
+
+   }
+}
+
+export const logout = () => ({
+
+   type:types.logout
+   
+})
+
+
+
+
+
+
