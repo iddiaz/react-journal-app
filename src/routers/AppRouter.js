@@ -16,6 +16,10 @@ import { login } from './../actions/auth';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
 
+// import { loadNotes } from '../helpers/loadNotes';
+// import { setNotes } from '../actions/notes';
+import { startLoadingNotes } from './../actions/notes';
+
 
 
 
@@ -31,23 +35,29 @@ export const AppRouter = () => {
    useEffect(() => {
       
       const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async(user) => {
 
          if( user?.uid ) {
             dispatch( login( user.uid, user.displayName ) );
             setIsLoggedIn(true);
+
+            // const notes = loadNotes( user.uid );
+            // dispatch( setNotes( notes ) );
+            dispatch( startLoadingNotes(user.uid ));
+            
             
          } else {
             setIsLoggedIn(false);
          }
          
          setChecking(false);
-      })   
+      }) 
+
    }, [dispatch, setChecking, setIsLoggedIn])
 
    if(checking){
       return (
-         <h1>Espere...</h1>
+         <h1>Wait...</h1>
       )
    }
 
