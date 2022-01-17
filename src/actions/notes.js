@@ -1,7 +1,10 @@
+import  Swal  from 'sweetalert2';
 import { db } from "../firebase/firebase-config";
 import { collection, addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
 import {types} from '../types/types';
 import { loadNotes } from "../helpers/loadNotes";
+import { fileUpload } from '../helpers/fileUpload';
+
 
 
 export const startNewNote = ()=>{
@@ -79,11 +82,61 @@ export const startSaveNote = ( note ) => {
 
       const noteRef = doc(db, `${uid}/journal/notes/${note.id}`)
       await updateDoc(noteRef,noteToFirestore);
+      
+      // dispatch( startLoadingNotes( uid ) );
+      // dispatch( refreshNote( note.id, note ) );
+      dispatch( refreshNote( note.id, noteToFirestore ) );
+      
+      Swal.fire('Saved', note.title, 'success' );
+  
 
    }
 
 }
 
+
+export const refreshNote = ( id, note ) => ({
+   type: types.notesUpdated,
+   payload: {
+      id,
+      // note, || o recupero el id individual en cada objeto para el key del map.
+      note:{
+         id,
+         ...note
+      }
+   }
+})
+
+export const startUploading = (file) => {
+   //accion asincrona, usa redux-thunk asi. 
+   return async( dispatch, getState ) => {
+
+      //recupera del store el valor de notes.
+      const { active: activeNote } = getState().notes;     
+
+      Swal.fire({
+         title: 'Uploading...',
+         text: 'Please whait',
+         allowOutsideClick: false,
+         showConfirmButton: false,
+         willOpen: ()=> {
+            Swal.showLoading();
+         }
+      })
+
+      const fileUrl = await fileUpload(file);
+
+      // console.log('fileURL=>>',fileUrl);
+      activeNote.url =fileUrl;
+
+      dispatch( startSaveNote(activeNote) );
+
+      Swal.close();
+
+
+   }
+
+}
 
 
 

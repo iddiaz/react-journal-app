@@ -61,7 +61,8 @@ export const NotesScreen = () => {
              {
                (note.url) 
                && (<div className='notes__image'>
-                     <img src="https://picsum.photos/700/300" alt="iamgen" />
+                     {/* <img src="https://picsum.photos/700/300" alt="iamgen" /> */}
+                     <img src={ note.url } alt="iamgen" />
                   </div>)
              }
 
