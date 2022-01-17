@@ -15,8 +15,8 @@ export const JournalScreen = () => {
 
 
 
-      <div className='journal__main-content'>
-         <Sidebar />
+      <div className='journal__main-content animate__animated animate__fadeIn animate__faster'>
+         <Sidebar /> 
 
          <main>
 
