@@ -161,6 +161,10 @@ export const deleteNote = ( id )=>({
    payload: id
 })
 
+export const notesLogoutCleaning = () =>({
+   type: types.notesLogoutCleaning
+})
+
 
 
 

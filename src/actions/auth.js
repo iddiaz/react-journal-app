@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, si
 import { googleAuthProvider } from '../firebase/firebase-config';
 import { types } from './../types/types';
 import { finishLoading, startLoading } from './ui';
+import { notesLogoutCleaning } from './notes';
 
 
 
@@ -98,6 +99,9 @@ export const startLogout = ()=>{
       signOut( auth ).then( ()=>{
          console.log('logout from firestore!!');
          dispatch( logout() );
+         dispatch( notesLogoutCleaning() );
+
+
       } )
 
 
@@ -106,7 +110,7 @@ export const startLogout = ()=>{
 
 export const logout = () => ({
 
-   type:types.logout
+   type:types.logout   
    
 })
 
