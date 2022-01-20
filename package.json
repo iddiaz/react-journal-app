@@ -47,6 +47,7 @@
   "devDependencies": {
     "cloudinary": "^1.27.1",
     "enzyme": "^3.11.0",
-    "enzyme-to-json": "^3.6.2"
+    "enzyme-to-json": "^3.6.2",
+    "redux-mock-store": "^1.5.4"
   }
 }
