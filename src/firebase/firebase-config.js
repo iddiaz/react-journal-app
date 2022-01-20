@@ -7,7 +7,7 @@ import { getFirestore } from 'firebase/firestore';
 import { GoogleAuthProvider } from 'firebase/auth';
  
 
-console.log( process.env );
+// console.log( process.env );
 
 // Your web app's Firebase configuration 
 //dev/prod
@@ -41,7 +41,7 @@ const firebaseConfig = {
     
 //   }
   
-  console.log(process.env);
+  
   const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase

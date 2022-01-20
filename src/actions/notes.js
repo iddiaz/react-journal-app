@@ -27,12 +27,18 @@ export const startNewNote = ()=>{
       //old
       // const doc = db.collection(`${uid}/journal/notes`).add(newNote);
 
-      // new firebase update
-      const docRef = await addDoc(collection(db,  `${ uid }`, "journal/notes"), newNote );
-      console.log("Document written with ID: ", docRef.id);
+      try {
+         // new firebase update
+         const docRef = await addDoc(collection(db,  `${ uid }`, "journal/notes"), newNote );
+         console.log("Document written with ID: ", docRef.id);
+   
+         dispatch( activeNote( docRef.id, newNote ) );
+         dispatch( addNewNote( docRef.id, newNote ) );
 
-      dispatch( activeNote( docRef.id, newNote ) );
-      dispatch( addNewNote( docRef.id, newNote ) );
+      } catch (err){
+         console.log(err);
+      }
+
 
 
    }
