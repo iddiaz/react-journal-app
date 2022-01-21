@@ -27,11 +27,11 @@ export const startLoginEmailPassword = ( email, password ) =>{
 
       dispatch( startLoading() );
 
-      signInWithEmailAndPassword( auth, email, password )
+      return signInWithEmailAndPassword( auth, email, password )
          .then( ({user}) => {
-            console.log(user);
+            // console.log(user);
             dispatch( login( user.uid, user.displayName ) );
-            console.log('finidh?')
+            // console.log('finidh?')
             dispatch( finishLoading() );   
               
          }).catch( (err) => {
@@ -79,11 +79,11 @@ export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
       createUserWithEmailAndPassword( auth, email, password )
          .then( async({user}) =>{
             await updateProfile( user, {displayName: name});
-            console.log(user);
+            // console.log(user);
             dispatch( login( user.uid, user.displayName ))
 
          }).catch( err =>{
-            console.log(err);
+            // console.log(err);
             const dataErr = JSON.stringify( err.code );   
             const errorMessage= dataErr.replace(/['"]+/g, '');  
             Swal.fire('Error', errorMessage, 'error' );
@@ -94,16 +94,16 @@ export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
 }
 
 export const startLogout = ()=>{
-   return(dispatch)=>{
+   
+   return async(dispatch)=>{
       const auth = getAuth();
-      signOut( auth ).then( ()=>{
-         console.log('logout from firestore!!');
+      await signOut( auth ).then( ()=>{
+         // console.log('logout from firestore!!');
          dispatch( logout() );
          dispatch( notesLogoutCleaning() );
 
 
       } )
-
 
    }
 }
